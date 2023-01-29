@@ -1,0 +1,12 @@
+class Solution {
+    public int climbStairs(int n) {
+        int max=1;
+        int max1=1;
+        for(int i=2;i<=n;i++){
+            int x=max+max1;
+            max1=max;
+            max=x;
+        }
+  return max;
+    }
+}
