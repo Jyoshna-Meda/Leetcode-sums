@@ -1,0 +1,33 @@
+class Solution {
+    boolean flag=false;
+    public boolean containsCycle(char[][] grid) {
+        boolean[][] visit=new boolean[grid.length][grid[0].length];
+    
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if(visit[i][j]==false)
+                  dfs(i,j,grid,visit,5,5);
+               
+                   
+            }
+        }
+        return flag;
+    }
+    public void dfs(int i,int j,char[][] grid,boolean[][] visit,int pi,int pj){
+        visit[i][j]=true;
+        int[] or={-1,0,0,1};
+        int[] oc={0,1,-1,0};
+        for(int m=0;m<4;m++){
+            int row=i+or[m];
+            int col=j+oc[m];
+            if(row<0 || col<0 || row>=grid.length || col>=grid[0].length)
+              continue;
+            if((visit[row][col] && grid[i][j]==grid[row][col]) && (row!=pi && col!=pj)){
+                flag= true;
+            }
+            if(!visit[row][col] && grid[i][j]==grid[row][col]){
+                dfs(row,col,grid,visit,i,j);}
+        }
+        return ;
+    }
+}
