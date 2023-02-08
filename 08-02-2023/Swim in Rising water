@@ -1,0 +1,42 @@
+class Solution {
+    public int swimInWater(int[][] grid) {
+        class pair implements Comparable<pair>{
+            int dis;
+            int row;
+            int col;
+            pair(int dis,int row,int col){
+                this.dis=dis;
+                this.row=row;
+                this.col=col;
+            }
+            public int compareTo(pair a){
+                return dis-a.dis;
+            }
+        }
+        PriorityQueue<pair> q=new PriorityQueue<>();
+        q.add(new pair(grid[0][0],0,0));
+        int max=0;
+        int[] or={-1,0,0,1};
+        int[] oc={0,-1,1,0};
+        boolean[][] visit=new boolean[grid.length][grid[0].length];
+        visit[0][0]=true;
+        while(!q.isEmpty()){
+            pair b=q.poll();
+            visit[b.row][b.col]=true;
+            max=Math.max(max,b.dis);
+            if(b.row==grid.length-1 && b.col==grid[0].length-1)
+               return max;
+            for(int i=0;i<4;i++){
+                int r=b.row+or[i];
+                int c=b.col+oc[i];
+                if(r<0 || c<0 || r>=grid.length || c>=grid[0].length)
+                   continue;
+                if(visit[r][c]==false){
+                    q.add(new pair(grid[r][c],r,c));
+                    
+                }
+            }
+        }
+        return max;
+    }
+}
