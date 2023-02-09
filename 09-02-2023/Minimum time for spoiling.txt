@@ -1,0 +1,71 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+ class pair{
+            int row;
+            int col;
+            pair(int row,int col){
+                this.row=row;
+                this.col=col;
+            }
+        }
+
+public class Solution {
+
+    public static void main(String[] args) {
+       Scanner sc=new Scanner(System.in);
+        int a=sc.nextInt();
+        int b=sc.nextInt();
+        int[][] mat=new int[a][b];
+        Queue<pair> q=new LinkedList<>();
+        for(int i=0;i<a;i++){
+            for(int j=0;j<b;j++){
+                mat[i][j]=sc.nextInt();
+                if(mat[i][j]==2){
+                    q.add(new pair(i,j));
+                    }
+                
+           }
+        }
+        int[] or={-1,0,0,1};
+        int[] oc={0,1,-1,0};
+        if(q.size()==0)
+            System.out.println(0);
+        else{
+           int count=-1;
+            while(!q.isEmpty()){
+                int size=q.size();
+                count++;
+                for(int i=0;i<size;i++){
+                    pair w=q.poll();
+                    for(int m=0;m<4;m++){
+                        int r=w.row+or[m];
+                        int c=w.col+oc[m];
+                        if(r<0 || c<0 || r>=a || c>=b)
+                            continue;
+                        if(mat[r][c]==1){
+                            mat[r][c]=2;
+                            q.add(new pair(r,c));
+                        }
+                    }
+                }
+            }
+            int x=0;
+        for(int i=0;i<mat.length;i++){
+            for(int j=0;j<b;j++){
+                if(mat[i][j]==1){
+                    x=-1;
+                   break;}
+            }
+        }
+        if(x==-1)
+            System.out.println(-1);
+        else
+            System.out.println(count);
+        
+        }
+        
+    }
+}

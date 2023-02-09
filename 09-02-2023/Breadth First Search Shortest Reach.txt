@@ -1,0 +1,124 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+class Result {
+
+    /*
+     * Complete the 'bfs' function below.
+     *
+     * The function is expected to return an INTEGER_ARRAY.
+     * The function accepts following parameters:
+     *  1. INTEGER n
+     *  2. INTEGER m
+     *  3. 2D_INTEGER_ARRAY edges
+     *  4. INTEGER s
+     */
+
+    public static List<Integer> bfs(int n, int m, List<List<Integer>> edges, int s) {
+    // Write your code here
+       class pair{
+              int ver;
+              int dis;
+              pair(int ver,int dis){
+                  this.ver=ver;
+                  this.dis=dis;
+              }
+          }
+      List<List<Integer>> arr=new ArrayList<>();
+        for(int i=0;i<=n;i++){
+            arr.add(new ArrayList<Integer>());
+        }
+        for(int i=0;i<m;i++){
+            arr.get(edges.get(i).get(0)).add(edges.get(i).get(1));
+            arr.get(edges.get(i).get(1)).add(edges.get(i).get(0));
+        }
+        boolean[] v=new boolean[n+1];
+        int[] d=new int[n+1];
+        v[s]=true;
+        d[s]=0;
+        Queue<pair> q=new LinkedList<>();
+        q.add(new pair(s,0));
+        while(!q.isEmpty()){
+            int size=q.size();
+            for(int i=1;i<=size;i++){
+                pair curr=q.poll();
+                for(int j=0;j<arr.get(curr.ver).size();j++){
+                    if(v[arr.get(curr.ver).get(j)]==false){
+                        v[arr.get(curr.ver).get(j)]=true;
+                        d[arr.get(curr.ver).get(j)]=curr.dis+6;
+                        q.add(new pair(arr.get(curr.ver).get(j),curr.dis+6));
+                    }
+                }
+            }
+        }
+        ArrayList<Integer> ar=new ArrayList<Integer>();
+        for(int i=1;i<=n;i++){
+            if(v[i]==false){
+                d[i]=-1;
+                ar.add(-1);
+              }
+            else if(i==s){
+                int h=0;
+            }
+            else{
+                ar.add(d[i]);
+            }
+    }
+        return ar;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = Integer.parseInt(bufferedReader.readLine().trim());
+
+        for (int qItr = 0; qItr < q; qItr++) {
+            String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+            int n = Integer.parseInt(firstMultipleInput[0]);
+
+            int m = Integer.parseInt(firstMultipleInput[1]);
+
+            List<List<Integer>> edges = new ArrayList<>();
+
+            for (int i = 0; i < m; i++) {
+                String[] edgesRowTempItems = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+                List<Integer> edgesRowItems = new ArrayList<>();
+
+                for (int j = 0; j < 2; j++) {
+                    int edgesItem = Integer.parseInt(edgesRowTempItems[j]);
+                    edgesRowItems.add(edgesItem);
+                }
+
+                edges.add(edgesRowItems);
+            }
+
+            int s = Integer.parseInt(bufferedReader.readLine().trim());
+
+            List<Integer> result = Result.bfs(n, m, edges, s);
+
+            for (int i = 0; i < result.size(); i++) {
+                bufferedWriter.write(String.valueOf(result.get(i)));
+
+                if (i != result.size() - 1) {
+                    bufferedWriter.write(" ");
+                }
+            }
+
+            bufferedWriter.newLine();
+        }
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}

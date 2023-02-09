@@ -1,0 +1,43 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+    static void island(int[][] mat,int i ,int j,int q,int w){
+            if(i<0 || j<0 || i>=q || j>=w || mat[i][j]!=1)
+                return;
+            mat[i][j]=0;
+            island(mat,i+1,j,q,w);
+            island(mat,i,j+1,q,w);
+            island(mat,i-1,j,q,w);
+            island(mat,i,j-1,q,w);
+            island(mat,i-1,j-1,q,w);
+            island(mat,i-1,j+1,q,w);
+            island(mat,i+1,j-1,q,w);
+            island(mat,i+1,j+1,q,w);
+        }
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int a=sc.nextInt();
+        int b=sc.nextInt();
+        int[][] mat =new int[a][b];
+        for(int i=0;i<a;i++){
+            for(int j=0;j<b;j++){
+                mat[i][j]=sc.nextInt();
+            }
+        }
+        int count=0;
+        for(int i=0;i<a;i++){
+            for(int j=0;j<b;j++){
+                if(mat[i][j]==1){
+                    island(mat,i,j,a,b);
+                      count++;}
+            }
+        }
+      
+        System.out.println(count);
+    }
+}
